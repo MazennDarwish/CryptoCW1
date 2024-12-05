@@ -24,14 +24,18 @@ def load_private_key(nickname):
 # Decrypt AES key with RSA private key
 def decrypt_aes_key(encrypted_aes_key, private_key):
     cipher = PKCS1_OAEP.new(private_key)
-    return cipher.decrypt(base64.b64decode(encrypted_aes_key))
+    decrypted_key = cipher.decrypt(base64.b64decode(encrypted_aes_key))
+    print(f"[DEBUG] RSA Decryption - Encrypted AES Key: {encrypted_aes_key}, Decrypted AES Key: {decrypted_key.hex()}")
+    return decrypted_key
 
 # Decrypt message with AES
 def decrypt_message(encrypted_message, aes_key):
     data = base64.b64decode(encrypted_message)
     nonce, tag, ciphertext = data[:16], data[16:32], data[32:]
     cipher = AES.new(aes_key, AES.MODE_GCM, nonce=nonce)
-    return cipher.decrypt_and_verify(ciphertext, tag).decode('utf-8')
+    decrypted = cipher.decrypt_and_verify(ciphertext, tag).decode('utf-8')
+    print(f"[DEBUG] AES Decryption - Ciphertext: {encrypted_message}, Plaintext: {decrypted}")
+    return decrypted
 
 # Broadcast messages to all clients
 def broadcast(message, sender=None):
