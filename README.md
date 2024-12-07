@@ -42,12 +42,6 @@ Ensure you have the following installed:
 
 ## Setup
 
-### 1. Clone the Repository
-```bash
-git clone <repository-url>
-cd <repository-name>
-```
-
 ### 2. Generate Required Files
 - Create a `users.txt` file for storing user credentials.
 - Create a `servers.json` file to define server configurations. Example:
